@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient">
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Baris atas: Skip -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_weight="1"
+                android:textColor="#000"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Skip"
+                android:textColor="#000"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Gambar -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/foodies_delivery_front" />
+
+    </LinearLayout>
+
+    <!-- Dots: lebih dekat ke card -->
+    <LinearLayout
+        android:id="@+id/dotsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="24dp"
+        app:layout_constraintBottom_toTopOf="@id/cardLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/circle_black" />
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/circle_white" />
+    </LinearLayout>
+
+    <!-- CARD DI BAGIAN PALING BAWAH -->
+    <LinearLayout
+        android:id="@+id/cardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+
+        android:background="@drawable/bg_card"
+        android:elevation="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="Rekomendasi Makanan"
+            android:textColor="#000"
+            android:textSize="30sp"
+            android:textStyle="bold|italic" />
+
+        <!-- Deskripsi -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="Pusing mikirin makanan? Cari rekomendasi makanan berdasarkan preferensimu, coba in"
+            android:textColor="#333"
+            android:textStyle="italic"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Tombol Next -->
+        <TextView
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_gradient"
+            android:gravity="center"
+            android:paddingLeft="150dp"
+            android:paddingRight="150dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="Next"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                 isPasswordVisible = false
             } else {
                 binding.edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                binding.imgTogglePassword.setImageResource(R.drawable.ic_eye) // ikon mata terbuka
+                binding.imgTogglePassword.setImageResource(R.drawable.ic_eyeopen) // ikon mata terbuka
                 isPasswordVisible = true
             }
             binding.edtPassword.setSelection(binding.edtPassword.text.length)

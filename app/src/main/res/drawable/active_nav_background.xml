@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Shadow Layer with Gradient -->
+    <item
+
+        android:right="2dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#30000000"
+                android:endColor="#10000000"
+                android:angle="135" />
+            <corners android:radius="16dp"/>
+            <size android:width="48dp" android:height="48dp" />
+        </shape>
+    </item>
+
+    <!-- Main Background Layer -->
+    <item
+        android:bottom="2dp"
+        android:right="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#E0F0FF" /> <!-- Biru muda -->
+            <corners android:radius="16dp"/>
+            <size android:width="48dp" android:height="48dp" />
+        </shape>
+    </item>
+
+</layer-list>

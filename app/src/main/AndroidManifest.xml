@@ -14,17 +14,28 @@
         android:theme="@style/Theme.Saji_In"
         tools:targetApi="31">
 
-        <!-- Login sebagai Activity awal (launcher) -->
         <activity
-            android:name=".auth.LoginActivity"
+            android:name=".RekomendasiAwalActivity"
             android:exported="true"
-            android:label="Login">
+            android:label="Rekomendasi Awal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RekomendasiResepActivity"
+            android:exported="false"
+            android:label="Rekomendasi Resep" />
+
+
+        <!-- LoginActivity tidak sebagai launcher -->
+        <activity
+            android:name=".auth.LoginActivity"
+            android:exported="false"
+            android:label="Login" />
+
 
         <!-- Register Activity -->
         <activity
