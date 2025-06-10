@@ -49,6 +49,10 @@
             android:exported="false"
             android:label="@string/app_name" />
 
+<!--        RincianSajian-->
+        <activity android:name=".ui.detail.RincianSajianActivity" />
+
+
     </application>
 
 </manifest>

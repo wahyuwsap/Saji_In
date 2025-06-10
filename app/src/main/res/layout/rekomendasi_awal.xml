@@ -81,7 +81,6 @@
         android:id="@+id/cardLayout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-
         android:background="@drawable/bg_card"
         android:elevation="4dp"
         android:gravity="center_horizontal"
