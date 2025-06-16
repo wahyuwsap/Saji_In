@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.saji_in">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
         android:allowBackup="true"
@@ -56,6 +58,9 @@
         <activity android:name=".ui.settings.GantiPasswordActivity" />
         <activity android:name=".ui.settings.PrivacyPolicyActivity" />
         <activity android:name=".ui.settings.TermsOfServiceActivity" />
+
+
+
 
 
 

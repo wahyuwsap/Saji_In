@@ -1,6 +1,8 @@
 package com.saji_in.ui.dashboard
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,10 @@ class DashboardFragment : Fragment() {
 
     private lateinit var adapter: RecommendationAdapter
     private val lovedItems = mutableListOf<FoodItem>()
+    private var allLovedItems: List<FoodItem> = listOf()
+
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private var isSearchVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,16 +40,29 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        // Tombol back
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        // Tombol search
         binding.ivSearch.setOnClickListener {
-            // Jika kamu ingin nanti tampil popup pencarian, bisa ditambahkan logika di sini
-            // Misalnya buka dialog, atau navigasi ke fragment pencarian love
+            isSearchVisible = !isSearchVisible
+            binding.etSearch.visibility = if (isSearchVisible) View.VISIBLE else View.GONE
+
+            if (!isSearchVisible) {
+                binding.etSearch.text.clear()
+                filterList("")
+            }
         }
+
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterList(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun setupRecyclerView() {
@@ -55,17 +73,31 @@ class DashboardFragment : Fragment() {
 
     private fun observeLovedItems() {
         sharedViewModel.lovedItems.observe(viewLifecycleOwner) { items ->
-            lovedItems.clear()
-            lovedItems.addAll(items)
-            adapter.notifyDataSetChanged()
+            allLovedItems = items.toList()
+            filterList(binding.etSearch.text.toString()) // Filter saat load ulang
+        }
+    }
 
-            if (lovedItems.isEmpty()) {
-                binding.emptyStateLayout.visibility = View.VISIBLE
-                binding.rvLovedItems.visibility = View.GONE
-            } else {
-                binding.emptyStateLayout.visibility = View.GONE
-                binding.rvLovedItems.visibility = View.VISIBLE
+    private fun filterList(query: String) {
+        val filtered = if (query.isEmpty()) {
+            allLovedItems
+        } else {
+            allLovedItems.filter {
+                it.title.contains(query, ignoreCase = true)||it.title.contains(query, true) || it.description.contains(query, true)
+
             }
+        }
+
+        lovedItems.clear()
+        lovedItems.addAll(filtered)
+        adapter.notifyDataSetChanged()
+
+        if (lovedItems.isEmpty()) {
+            binding.emptyStateLayout.visibility = View.VISIBLE
+            binding.rvLovedItems.visibility = View.GONE
+        } else {
+            binding.emptyStateLayout.visibility = View.GONE
+            binding.rvLovedItems.visibility = View.VISIBLE
         }
     }
 
