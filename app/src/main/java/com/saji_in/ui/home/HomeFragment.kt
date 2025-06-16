@@ -1,6 +1,8 @@
 package com.saji_in.ui.home
 
+import android.content.Context
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -105,9 +107,20 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val uriString = sharedPref.getString("profile_image_uri", null)
+
+        if (uriString != null) {
+            val uri = Uri.parse(uriString)
+            binding.ivProfile.setImageURI(uri)
+        } else {
+            binding.ivProfile.setImageResource(R.drawable.ic_person)
+        }
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupRecyclerView()
         setupSearch()
+
         return binding.root
     }
 

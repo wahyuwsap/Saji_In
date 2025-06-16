@@ -1,21 +1,21 @@
 package com.saji_in.ui.notifications
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.saji_in.databinding.FragmentNotificationsBinding
 import com.saji_in.R
+import com.saji_in.auth.LoginActivity
+import com.saji_in.ui.settings.*
 
 class NotificationsFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,7 +23,53 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_notifications, container, false)
+        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+
+        // Ambil SharedPreferences
+        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val namaDepan = sharedPref.getString("namaDepan", "")
+        val namaBelakang = sharedPref.getString("namaBelakang", "")
+        val namaLengkap = sharedPref.getString("username", "")
+        val uriString = sharedPref.getString("profile_image_uri", null)
+
+        if (uriString != null) {
+            val uri = Uri.parse(uriString)
+            binding.ivProfile.setImageURI(uri)
+        } else {
+            binding.ivProfile.setImageResource(R.drawable.ic_person)
+        }
+
+        binding.tvGreeting.text = namaLengkap
+
+        // Logout
+        binding.logOut.setOnClickListener {
+            sharedPref.edit().clear().apply()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        // Term of Services
+        binding.tos.setOnClickListener {
+            startActivity(Intent(requireContext(), TermOfServiceActivity::class.java))
+        }
+
+        // Privacy Policy
+        binding.privacyPolicy.setOnClickListener {
+            startActivity(Intent(requireContext(), PrivacyPolicyActivity::class.java))
+        }
+
+        // Ganti Password
+        binding.gantiPassword.setOnClickListener {
+            startActivity(Intent(requireContext(), GantiPasswordActivity::class.java))
+        }
+
+        // Edit Profile
+        binding.editProfile.setOnClickListener {
+            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+        }
+
+        return binding.root
     }
 
     override fun onDestroyView() {

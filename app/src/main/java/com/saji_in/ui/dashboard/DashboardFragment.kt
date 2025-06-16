@@ -9,9 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.saji_in.adapter.RecommendationAdapter
 import com.saji_in.databinding.FragmentDashboardBinding
-import com.saji_in.model.SharedViewModel
 import com.saji_in.model.FoodItem
-
+import com.saji_in.model.SharedViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -19,22 +18,33 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: RecommendationAdapter
-    private val lovedItems = mutableListOf<FoodItem>() // ✅ Dideklarasikan di sini
-
+    private val lovedItems = mutableListOf<FoodItem>()
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val view = binding.root
 
+        setupToolbar()
         setupRecyclerView()
         observeLovedItems()
 
-        return view
+        return binding.root
+    }
+
+    private fun setupToolbar() {
+        // Tombol back
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        // Tombol search
+        binding.ivSearch.setOnClickListener {
+            // Jika kamu ingin nanti tampil popup pencarian, bisa ditambahkan logika di sini
+            // Misalnya buka dialog, atau navigasi ke fragment pencarian love
+        }
     }
 
     private fun setupRecyclerView() {
@@ -48,8 +58,15 @@ class DashboardFragment : Fragment() {
             lovedItems.clear()
             lovedItems.addAll(items)
             adapter.notifyDataSetChanged()
-        }
 
+            if (lovedItems.isEmpty()) {
+                binding.emptyStateLayout.visibility = View.VISIBLE
+                binding.rvLovedItems.visibility = View.GONE
+            } else {
+                binding.emptyStateLayout.visibility = View.GONE
+                binding.rvLovedItems.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -57,4 +74,3 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 }
-
