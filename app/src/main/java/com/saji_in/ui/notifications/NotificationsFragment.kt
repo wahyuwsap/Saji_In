@@ -74,6 +74,24 @@ class NotificationsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val namaLengkap = sharedPref.getString("username", "")
+        val uriString = sharedPref.getString("profile_image_uri", null)
+
+        if (uriString != null) {
+            val uri = Uri.parse(uriString)
+            binding.ivProfile.setImageURI(uri)
+        } else {
+            binding.ivProfile.setImageResource(R.drawable.ic_person)
+        }
+
+        binding.tvGreeting.text = namaLengkap
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

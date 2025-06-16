@@ -45,12 +45,21 @@ class EditProfileActivity : AppCompatActivity() {
                     .putString("email", email)
                     .putString("telepon", telepon)
                     .apply()
+
+                // Simpan URI foto profil jika ada
+                if (selectedImageUri != null) {
+                    sharedPref.edit()
+                        .putString("profile_image_uri", selectedImageUri.toString())
+                        .apply()
+                }
+
                 Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 Toast.makeText(this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Aksi klik ikon kamera
         binding.cameraIconContainer.setOnClickListener {

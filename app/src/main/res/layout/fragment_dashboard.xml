@@ -50,22 +50,22 @@
         android:layout_marginTop="24dp" />
 
     <!-- EditText pencarian -->
+
     <EditText
         android:id="@+id/etSearch"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="8dp"
         android:hint="Cari makanan..."
         android:padding="12dp"
-        android:visibility="gone"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/ivSearch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="8dp" />
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/titleLove"
+        app:layout_constraintEnd_toStartOf="@id/ivSearch"
+        app:layout_constraintBottom_toTopOf="@id/separator" />
+
 
 
     <!-- Garis horizontal -->
