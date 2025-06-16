@@ -27,8 +27,6 @@ class NotificationsFragment : Fragment() {
 
         // Ambil SharedPreferences
         val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val namaDepan = sharedPref.getString("namaDepan", "")
-        val namaBelakang = sharedPref.getString("namaBelakang", "")
         val namaLengkap = sharedPref.getString("username", "")
         val uriString = sharedPref.getString("profile_image_uri", null)
 
@@ -43,15 +41,19 @@ class NotificationsFragment : Fragment() {
 
         // Logout
         binding.logOut.setOnClickListener {
-            sharedPref.edit().clear().apply()
+            sharedPref.edit()
+                .putBoolean("isLoggedIn", false) // ❗ hanya ubah flag login
+                .apply()
+
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
 
+
         // Term of Services
         binding.tos.setOnClickListener {
-            startActivity(Intent(requireContext(), TermOfServiceActivity::class.java))
+            startActivity(Intent(requireContext(), TermsOfServiceActivity::class.java))
         }
 
         // Privacy Policy

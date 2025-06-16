@@ -142,23 +142,6 @@
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
-        <!-- Garis horizontal -->
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@android:color/black"
-            android:layout_marginTop="12dp" />
-
-        <!--menu edit profile-->
-        <TextView
-            android:id="@+id/Mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Mode"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
 
         <!-- Tombol logout -->
         <TextView

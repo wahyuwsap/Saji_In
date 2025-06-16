@@ -107,6 +107,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false) // ✅ Inisialisasi dulu baru dipakai
         val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         val uriString = sharedPref.getString("profile_image_uri", null)
 
@@ -117,12 +118,12 @@ class HomeFragment : Fragment() {
             binding.ivProfile.setImageResource(R.drawable.ic_person)
         }
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupRecyclerView()
         setupSearch()
 
         return binding.root
     }
+
 
     private fun setupRecyclerView() {
         adapter = RecommendationAdapter(filteredList, sharedViewModel, viewLifecycleOwner)

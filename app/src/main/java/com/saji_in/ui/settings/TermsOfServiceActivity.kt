@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.saji_in.R
 
-class PrivacyPolicyActivity : AppCompatActivity() {
+class TermsOfServiceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy_policy)
-        supportActionBar?.title = "Kebijakan Privasi"
+        setContentView(R.layout.activity_terms_of_service)
+        supportActionBar?.title = "Syarat dan Ketentuan"
     }
 }
