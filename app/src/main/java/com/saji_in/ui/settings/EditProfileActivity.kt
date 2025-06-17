@@ -2,7 +2,6 @@ package com.saji_in.ui.settings
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,12 +14,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.saji_in.databinding.ActivityEditProfileBinding
+import com.saji_in.db.UserDatabaseHelper
+import com.saji_in.model.UserModel
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
-    private val REQUEST_CODE_STORAGE = 100
+    private lateinit var dbHelper: UserDatabaseHelper
     private var selectedImageUri: Uri? = null
+    private var currentUser: UserModel? = null
+    private val REQUEST_CODE_STORAGE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,41 +31,64 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        dbHelper = UserDatabaseHelper(this)
 
-        // Load data dari SharedPreferences (opsional)
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        binding.etUsername.setText(sharedPref.getString("username", ""))
-        binding.etEmail.setText(sharedPref.getString("email", ""))
-        binding.etTelepon.setText(sharedPref.getString("telepon", ""))
+        // Ambil data user yang sedang login (misalnya lewat email disimpan di SharedPreferences)
+        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val userEmail = sharedPref.getString("email", null)
 
-        // Aksi simpan data
+        if (!userEmail.isNullOrEmpty()) {
+            currentUser = dbHelper.getUserByEmail(userEmail)
+            currentUser?.let { user ->
+                binding.etUsername.setText(user.username)
+                binding.etEmail.setText(user.email)
+                binding.etTelepon.setText(user.telepon)
+
+                if (!user.profileImageUri.isNullOrEmpty()) {
+                    val uri = Uri.parse(user.profileImageUri)
+                    binding.ivProfile.setImageURI(uri)
+                    selectedImageUri = uri
+                }
+
+            }
+        }
+
+
+
         binding.btnSimpan.setOnClickListener {
             val username = binding.etUsername.text.toString().trim()
             val email = binding.etEmail.text.toString().trim()
             val telepon = binding.etTelepon.text.toString().trim()
+            val imageUriStr = selectedImageUri?.toString() ?: ""
 
             if (username.isNotEmpty() && email.isNotEmpty() && telepon.isNotEmpty()) {
-                sharedPref.edit()
-                    .putString("username", username)
-                    .putString("email", email)
-                    .putString("telepon", telepon)
-                    .apply()
+                currentUser?.let { user ->
+                    val updatedUser = user.copy(
+                        username = username,
+                        email = email,
+                        telepon = telepon,
+                        profileImageUri = imageUriStr
+                    )
+                    val result = dbHelper.updateUser(updatedUser)
+                    if (result > 0) {
+                        sharedPref.edit()
+                            .putString("username", username)
+                            .putString("email", email)
+                            .putString("telepon", telepon)
+                            .putString("profile_image_uri", imageUriStr)
+                            .apply()
 
-                // Simpan URI foto profil jika ada
-                selectedImageUri?.let {
-                    sharedPref.edit()
-                        .putString("profile_image_uri", it.toString())
-                        .apply()
+                        Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
+                    }
                 }
-
-                Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
-                finish()
             } else {
                 Toast.makeText(this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Aksi klik ikon kamera
         binding.cameraIconContainer.setOnClickListener {
             checkStoragePermission()
         }
