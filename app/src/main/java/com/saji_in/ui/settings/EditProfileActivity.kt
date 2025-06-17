@@ -71,13 +71,6 @@ class EditProfileActivity : AppCompatActivity() {
                     )
                     val result = dbHelper.updateUser(updatedUser)
                     if (result > 0) {
-                        sharedPref.edit()
-                            .putString("username", username)
-                            .putString("email", email)
-                            .putString("telepon", telepon)
-                            .putString("profile_image_uri", imageUriStr)
-                            .apply()
-
                         Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
                         finish()
                     } else {

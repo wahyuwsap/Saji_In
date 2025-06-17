@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.saji_in.model.UserModel
 
 class UserDatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "sajiin.db", null, 2) {
+    SQLiteOpenHelper(context, "sajiin.db", null, 1) {
 
     companion object {
         private const val TABLE_NAME = "users"
