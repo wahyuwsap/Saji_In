@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import com.saji_in.R
+import com.saji_in.auth.LoginActivity
 import com.saji_in.databinding.ActivityGantiPasswordBinding
 
 class GantiPasswordActivity : AppCompatActivity() {
@@ -31,8 +34,16 @@ class GantiPasswordActivity : AppCompatActivity() {
             } else {
                 sharedPref.edit().putString("password", newPassword).apply()
                 Toast.makeText(this, "Password berhasil diubah", Toast.LENGTH_SHORT).show()
-                finish()
+
+                // Arahkan ke LoginActivity
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
+
+        }
+        findViewById<android.view.View>(R.id.btnBack)?.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }
