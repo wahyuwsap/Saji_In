@@ -3,4 +3,85 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="privacy_policy">
+        Kebijakan Privasi (Privacy Policy)\n
+        Terakhir diperbarui: 28 Mei 2025\n\n
+
+        Kami menghargai privasi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda saat menggunakan aplikasi saji.in.\n\n
+
+        1. Informasi yang Kami Kumpulkan:\n
+        • Informasi akun: Nama pengguna, email (jika diperlukan untuk login)\n
+        • Preferensi pengguna: Resep yang Anda sukai atau lihat\n
+        • Informasi teknis: Data perangkat seperti jenis perangkat, sistem operasi, dan log penggunaan\n\n
+
+        2. Penggunaan Informasi:\n
+        Informasi yang kami kumpulkan digunakan untuk:\n
+        • Menyediakan pengalaman pengguna yang lebih personal (misalnya, menyimpan resep favorit)\n
+        • Memperbaiki performa dan fitur aplikasi\n
+        • Menganalisis penggunaan aplikasi untuk pengembangan lebih lanjut\n\n
+
+        3. Penyimpanan dan Keamanan Data:\n
+        Kami berkomitmen untuk menjaga keamanan data Anda. Data disimpan dengan perlindungan yang sesuai dan hanya diakses oleh pihak yang berwenang. Namun, kami tidak bisa menjamin keamanan absolut dari sistem digital mana pun.\n\n
+
+        4. Berbagi Informasi:\n
+        Kami tidak akan menjual, menyewakan, atau membagikan informasi pribadi Anda kepada pihak ketiga, kecuali jika diwajibkan oleh hukum atau untuk keperluan keamanan aplikasi.\n\n
+
+        5. Hak Pengguna:\n
+        Anda memiliki hak untuk:\n
+        • Mengakses informasi pribadi Anda\n
+        • Memperbarui atau menghapus akun Anda\n
+        • Menonaktifkan penggunaan data Anda (dengan berhenti menggunakan aplikasi atau menghapus akun)\n\n
+
+        6. Cookie dan Teknologi Pelacakan:\n
+        Aplikasi kami tidak menggunakan cookie, namun mungkin menggunakan teknologi analitik untuk melihat bagaimana aplikasi digunakan guna memperbaiki layanan.\n\n
+
+        7. Perubahan Kebijakan:\n
+        Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Perubahan signifikan akan kami informasikan melalui aplikasi.\n\n
+
+        8. Kontak:\n
+        Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, silakan hubungi kami melalui email: sajiin@gmail.com
+    </string>
+
+    <string name="terms_of_service">
+        Terakhir diperbarui: 28 Mei 2025\n\n
+
+        Selamat datang di aplikasi saji.in! Dengan menggunakan aplikasi ini, Anda setuju untuk mematuhi Syarat dan Ketentuan Penggunaan berikut ini. Harap baca dengan seksama sebelum menggunakan aplikasi kami.\n\n
+
+        1. Deskripsi Layanan:\n
+        Aplikasi ini menyediakan layanan berupa rekomendasi makanan, minuman, dan jajanan lengkap dengan resep yang bisa Anda baca. Pengguna dapat:\n
+        • Melihat resep secara lengkap\n
+        • Menyukai resep favorit\n
+        • Mengakses halaman profil pribadi\n\n
+
+        2. Akses dan Penggunaan:\n
+        Aplikasi ini hanya digunakan untuk keperluan pribadi dan non-komersial.\n
+        Anda tidak diperbolehkan menyalin, menyebarkan, atau memodifikasi konten dalam aplikasi tanpa izin tertulis dari pengembang.\n\n
+
+        3. Akun Pengguna:\n
+        Untuk menikmati fitur seperti menyukai resep dan melihat profil, Anda mungkin perlu membuat akun.\n
+        Anda bertanggung jawab atas keamanan dan kerahasiaan akun Anda.\n
+        Dilarang menggunakan nama atau identitas orang lain tanpa izin.\n\n
+
+        4. Hak Cipta dan Konten:\n
+        Seluruh konten resep dan materi lainnya di aplikasi ini dilindungi oleh hak cipta.\n
+        Apabila ada konten yang diunggah oleh pengguna, pengguna bertanggung jawab penuh atas keaslian dan keabsahannya.\n\n
+
+        5. Privasi:\n
+        Kami menghargai privasi Anda. Informasi pribadi yang dikumpulkan hanya digunakan untuk keperluan fungsional aplikasi dan tidak akan dibagikan ke pihak ketiga tanpa izin.\n\n
+
+        6. Batasan Tanggung Jawab:\n
+        Kami tidak menjamin bahwa semua resep cocok untuk kondisi kesehatan pengguna.\n
+        Kami tidak bertanggung jawab atas kerugian akibat penggunaan resep yang tersedia di aplikasi.\n\n
+
+        7. Perubahan Layanan dan Ketentuan:\n
+        Kami berhak untuk mengubah, menghentikan sementara, atau menghentikan aplikasi ini sewaktu-waktu.\n
+        Perubahan terhadap Syarat dan Ketentuan ini akan diinformasikan melalui pembaruan di aplikasi.\n\n
+
+        8. Hukum yang Berlaku:\n
+        Syarat dan Ketentuan ini diatur oleh hukum yang berlaku di Indonesia.
+    </string>
+
+
+
 </resources>

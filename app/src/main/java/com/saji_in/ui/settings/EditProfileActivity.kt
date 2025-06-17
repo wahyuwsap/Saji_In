@@ -27,6 +27,8 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupToolbar()
+
         // Load data dari SharedPreferences (opsional)
         val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         binding.etUsername.setText(sharedPref.getString("username", ""))
@@ -47,9 +49,9 @@ class EditProfileActivity : AppCompatActivity() {
                     .apply()
 
                 // Simpan URI foto profil jika ada
-                if (selectedImageUri != null) {
+                selectedImageUri?.let {
                     sharedPref.edit()
-                        .putString("profile_image_uri", selectedImageUri.toString())
+                        .putString("profile_image_uri", it.toString())
                         .apply()
                 }
 
@@ -60,10 +62,15 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
-
         // Aksi klik ikon kamera
         binding.cameraIconContainer.setOnClickListener {
             checkStoragePermission()
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
