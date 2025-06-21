@@ -50,22 +50,25 @@
         <!-- Judul makanan -->
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Popcorn Caramel"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#333333"
             android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintTop_toBottomOf="@id/ivFood"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
 
+
         <!-- Deskripsi makanan -->
         <TextView
             android:id="@+id/tvDesc"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Manis legit, crunchy terus!"
             android:textSize="14sp"
@@ -77,6 +80,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp" />
+
 
         <!-- Estimasi masak -->
         <LinearLayout

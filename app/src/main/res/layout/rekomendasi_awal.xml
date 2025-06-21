@@ -77,14 +77,12 @@
     </LinearLayout>
 
     <!-- CARD DI BAGIAN PALING BAWAH -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLayout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@drawable/bg_card"
         android:elevation="4dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,37 +91,44 @@
         <!-- Title -->
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
             android:text="Rekomendasi Makanan"
             android:textColor="#000"
             android:textSize="30sp"
-            android:textStyle="bold|italic" />
+            android:textStyle="bold|italic"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/description"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
 
         <!-- Deskripsi -->
         <TextView
             android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:lineSpacingExtra="4dp"
             android:text="Pusing mikirin makanan? Cari rekomendasi makanan berdasarkan preferensimu, coba in"
             android:textColor="#333"
             android:textStyle="italic"
-            android:textSize="20sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:textSize="20sp"
+            android:maxLines="4"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/nextButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Tombol Next -->
         <TextView
             android:id="@+id/nextButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_gradient"
             android:gravity="center"
@@ -132,7 +137,10 @@
             android:text="Next"
             android:textColor="#000"
             android:textSize="16sp"
-            android:textStyle="bold|italic" />
-    </LinearLayout>
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

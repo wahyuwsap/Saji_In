@@ -144,7 +144,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = RecommendationAdapter(filteredList, sharedViewModel, viewLifecycleOwner)
+        // Batasi hanya 6 item dari filteredList
+        val limitedList = filteredList.take(6)
+
+        adapter = RecommendationAdapter(limitedList.toMutableList(), sharedViewModel, viewLifecycleOwner)
         binding.rvRekomendasi.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvRekomendasi.adapter = adapter
 
@@ -158,6 +161,7 @@ class HomeFragment : Fragment() {
             GridSpacingItemDecoration(2, spacingInPixels, true)
         )
     }
+
 
     private fun setupSearch() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
