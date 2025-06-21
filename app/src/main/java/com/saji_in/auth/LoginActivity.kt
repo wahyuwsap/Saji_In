@@ -1,7 +1,6 @@
 package com.saji_in.auth
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Toast
@@ -16,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var dbHelper: UserDatabaseHelper
-    private lateinit var preferences: SharedPreferences
     private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dbHelper = UserDatabaseHelper(this)
-        preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         // Tombol Login
         binding.btnLogin.setOnClickListener {
@@ -40,18 +37,12 @@ class LoginActivity : AppCompatActivity() {
             val user: UserModel? = dbHelper.getUserByEmailAndPassword(emailInput, passwordInput)
 
             if (user != null) {
-                // Simpan info user ke SharedPreferences jika ingin digunakan nanti
-                preferences.edit()
-                    .putString("username", user.username)
-                    .putString("email", user.email)
-                    .putString("namaDepan", user.namaDepan)
-                    .putString("namaBelakang", user.namaBelakang)
-                    .putString("telepon", user.telepon)
-                    .putString("profileImageUri", user.profileImageUri)
-                    .apply()
-
                 Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
+
+                // Kirim user_id ke MainActivity
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("user_id", user.id) // <--- PENTING
+                startActivity(intent)
                 finish()
             } else {
                 Toast.makeText(this, "Email atau Password salah", Toast.LENGTH_SHORT).show()

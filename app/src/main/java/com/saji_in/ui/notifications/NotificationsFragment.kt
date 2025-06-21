@@ -1,16 +1,15 @@
 package com.saji_in.ui.notifications
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
-import com.saji_in.databinding.FragmentNotificationsBinding
-import com.saji_in.R
+import com.bumptech.glide.Glide
 import com.saji_in.auth.LoginActivity
+import com.saji_in.databinding.FragmentNotificationsBinding
+import com.saji_in.db.UserDatabaseHelper
+import com.saji_in.model.UserModel
 import com.saji_in.ui.settings.*
 
 class NotificationsFragment : Fragment() {
@@ -18,57 +17,50 @@ class NotificationsFragment : Fragment() {
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var dbHelper: UserDatabaseHelper
+    private var userId: Int = -1
+    private var currentUser: UserModel? = null
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        dbHelper = UserDatabaseHelper(requireContext())
 
-        // Ambil SharedPreferences
-        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val namaLengkap = sharedPref.getString("username", "")
-        val uriString = sharedPref.getString("profile_image_uri", null)
+        // Ambil user ID dari activity
+        userId = requireActivity().intent.getIntExtra("user_id", -1)
 
-        if (uriString != null) {
-            val uri = Uri.parse(uriString)
-            binding.ivProfile.setImageURI(uri)
+        if (userId == -1) {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+            requireActivity().finish()
         } else {
-            binding.ivProfile.setImageResource(R.drawable.ic_person)
+            loadUserData()
         }
 
-        binding.tvGreeting.text = namaLengkap
-
-        // Logout
         binding.logOut.setOnClickListener {
-            sharedPref.edit()
-                .putBoolean("isLoggedIn", false) // ❗ hanya ubah flag login
-                .apply()
-
             val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
 
-
-        // Term of Services
         binding.tos.setOnClickListener {
             startActivity(Intent(requireContext(), TermsOfServiceActivity::class.java))
         }
 
-        // Privacy Policy
         binding.privacyPolicy.setOnClickListener {
             startActivity(Intent(requireContext(), PrivacyPolicyActivity::class.java))
         }
 
-        // Ganti Password
         binding.gantiPassword.setOnClickListener {
-            startActivity(Intent(requireContext(), GantiPasswordActivity::class.java))
+            val intent = Intent(requireContext(), GantiPasswordActivity::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
 
-        // Edit Profile
         binding.editProfile.setOnClickListener {
-            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+            val intent = Intent(requireContext(), EditProfileActivity::class.java)
+            intent.putExtra("user_id", userId)
+            startActivity(intent)
         }
 
         return binding.root
@@ -76,21 +68,23 @@ class NotificationsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val namaLengkap = sharedPref.getString("username", "")
-        val uriString = sharedPref.getString("profile_image_uri", null)
-
-        if (uriString != null) {
-            val uri = Uri.parse(uriString)
-            binding.ivProfile.setImageURI(uri)
-        } else {
-            binding.ivProfile.setImageResource(R.drawable.ic_person)
-        }
-
-        binding.tvGreeting.text = namaLengkap
+        loadUserData()
     }
 
+    private fun loadUserData() {
+        currentUser = dbHelper.getUserById(userId)
+
+        currentUser?.let { user ->
+            binding.tvGreeting.text = user.username
+            if (!user.profileImageUri.isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(Uri.parse(user.profileImageUri))
+                    .into(binding.ivProfile)
+            } else {
+                binding.ivProfile.setImageResource(com.saji_in.R.drawable.ic_person)
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

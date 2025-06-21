@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.saji_in.databinding.ActivityEditProfileBinding
 import com.saji_in.db.UserDatabaseHelper
 import com.saji_in.model.UserModel
@@ -23,6 +24,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var dbHelper: UserDatabaseHelper
     private var selectedImageUri: Uri? = null
     private var currentUser: UserModel? = null
+    private var userId: Int = -1
     private val REQUEST_CODE_STORAGE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,66 +32,65 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupToolbar()
         dbHelper = UserDatabaseHelper(this)
+        userId = intent.getIntExtra("user_id", -1)
 
-        // Ambil data user yang sedang login (misalnya lewat email disimpan di SharedPreferences)
-        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val userEmail = sharedPref.getString("email", null)
+        if (userId == -1) {
+            Toast.makeText(this, "User ID tidak ditemukan", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        if (!userEmail.isNullOrEmpty()) {
-            currentUser = dbHelper.getUserByEmail(userEmail)
-            currentUser?.let { user ->
-                binding.etUsername.setText(user.username)
-                binding.etEmail.setText(user.email)
-                binding.etTelepon.setText(user.telepon)
+        currentUser = dbHelper.getUserById(userId)
 
-                if (!user.profileImageUri.isNullOrEmpty()) {
-                    val uri = Uri.parse(user.profileImageUri)
-                    binding.ivProfile.setImageURI(uri)
-                    selectedImageUri = uri
-                }
+        currentUser?.let { user ->
+            binding.etUsername.setText(user.username)
+            binding.etEmail.setText(user.email)
+            binding.etTelepon.setText(user.telepon)
 
+            if (!user.profileImageUri.isNullOrEmpty()) {
+                selectedImageUri = Uri.parse(user.profileImageUri)
+                Glide.with(this)
+                    .load(selectedImageUri)
+                    .into(binding.ivProfile)
             }
         }
 
-
-
-        binding.btnSimpan.setOnClickListener {
-            val username = binding.etUsername.text.toString().trim()
-            val email = binding.etEmail.text.toString().trim()
-            val telepon = binding.etTelepon.text.toString().trim()
-            val imageUriStr = selectedImageUri?.toString() ?: ""
-
-            if (username.isNotEmpty() && email.isNotEmpty() && telepon.isNotEmpty()) {
-                currentUser?.let { user ->
-                    val updatedUser = user.copy(
-                        username = username,
-                        email = email,
-                        telepon = telepon,
-                        profileImageUri = imageUriStr
-                    )
-                    val result = dbHelper.updateUser(updatedUser)
-                    if (result > 0) {
-                        Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                Toast.makeText(this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show()
-            }
-        }
+        binding.btnSimpan.setOnClickListener { updateUser() }
 
         binding.cameraIconContainer.setOnClickListener {
             checkStoragePermission()
         }
-    }
 
-    private fun setupToolbar() {
         binding.btnBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun updateUser() {
+        val username = binding.etUsername.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val telepon = binding.etTelepon.text.toString().trim()
+        val imageUriStr = selectedImageUri?.toString() ?: ""
+
+        if (username.isNotEmpty() && email.isNotEmpty() && telepon.isNotEmpty()) {
+            currentUser?.let { user ->
+                val updatedUser = user.copy(
+                    username = username,
+                    email = email,
+                    telepon = telepon,
+                    profileImageUri = imageUriStr
+                )
+                val result = dbHelper.updateUser(updatedUser)
+                if (result > 0) {
+                    Toast.makeText(this, "Profil berhasil disimpan", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Semua kolom wajib diisi", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -114,9 +115,12 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val data = result.data
-            selectedImageUri = data?.data
-            binding.ivProfile.setImageURI(selectedImageUri)
+            selectedImageUri = result.data?.data
+            selectedImageUri?.let {
+                Glide.with(this)
+                    .load(it)
+                    .into(binding.ivProfile)
+            }
         }
     }
 

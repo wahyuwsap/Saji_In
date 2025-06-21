@@ -5,8 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class SharedViewModel : ViewModel() {
+
     private val _lovedItems = MutableLiveData<List<FoodItem>>(emptyList())
     val lovedItems: LiveData<List<FoodItem>> get() = _lovedItems
+
+    companion object {
+        private var instance: SharedViewModel? = null
+
+        fun getInstance(): SharedViewModel {
+            if (instance == null) {
+                instance = SharedViewModel()
+            }
+            return instance!!
+        }
+    }
 
     fun toggleLove(item: FoodItem) {
         val currentList = _lovedItems.value?.toMutableList() ?: mutableListOf()
@@ -17,4 +29,9 @@ class SharedViewModel : ViewModel() {
         }
         _lovedItems.value = currentList
     }
+
+    fun isLoved(item: FoodItem): Boolean {
+        return _lovedItems.value?.contains(item) == true
+    }
 }
+

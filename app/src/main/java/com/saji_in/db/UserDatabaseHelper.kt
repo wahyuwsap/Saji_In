@@ -123,6 +123,38 @@ class UserDatabaseHelper(context: Context) :
         return db.update(TABLE_NAME, values, "id = ?", arrayOf(user.id.toString()))
     }
 
+    fun getUserById(id: Int): UserModel? {
+        val db = readableDatabase
+        val cursor = db.query(
+            "users",
+            null,
+            "id = ?",
+            arrayOf(id.toString()),
+            null,
+            null,
+            null
+        )
+
+        return if (cursor.moveToFirst()) {
+            val user = UserModel(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                username = cursor.getString(cursor.getColumnIndexOrThrow("username")),
+                namaDepan = cursor.getString(cursor.getColumnIndexOrThrow("namaDepan")),
+                namaBelakang = cursor.getString(cursor.getColumnIndexOrThrow("namaBelakang")),
+                email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                password = cursor.getString(cursor.getColumnIndexOrThrow("password")),
+                telepon = cursor.getString(cursor.getColumnIndexOrThrow("telepon")),
+                profileImageUri = cursor.getString(cursor.getColumnIndexOrThrow("profileImageUri"))
+            )
+            cursor.close()
+            user
+        } else {
+            cursor.close()
+            null
+        }
+    }
+
+
 
 
 }

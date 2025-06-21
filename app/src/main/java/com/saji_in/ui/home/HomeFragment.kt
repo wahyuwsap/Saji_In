@@ -1,21 +1,20 @@
 package com.saji_in.ui.home
 
-import android.content.Context
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.saji_in.R
 import com.saji_in.adapter.RecommendationAdapter
 import com.saji_in.databinding.FragmentHomeBinding
+import com.saji_in.db.UserDatabaseHelper
 import com.saji_in.model.FoodItem
 import com.saji_in.model.SharedViewModel
 
@@ -26,6 +25,9 @@ class HomeFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var adapter: RecommendationAdapter
+
+    private lateinit var dbHelper: UserDatabaseHelper
+    private var userId: Int = -1
 
     private val foodList = listOf(
         FoodItem(
@@ -107,15 +109,15 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false) // ✅ Inisialisasi dulu baru dipakai
-        val sharedPref = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val uriString = sharedPref.getString("profile_image_uri", null)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        if (uriString != null) {
-            val uri = Uri.parse(uriString)
-            binding.ivProfile.setImageURI(uri)
-        } else {
-            binding.ivProfile.setImageResource(R.drawable.ic_person)
+        dbHelper = UserDatabaseHelper(requireContext())
+
+        // Ambil user ID dari activity
+        userId = requireActivity().intent.getIntExtra("user_id", -1)
+
+        if (userId != -1) {
+            loadUserProfileImage()
         }
 
         setupRecyclerView()
@@ -124,12 +126,26 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadUserProfileImage()
+    }
+
+    private fun loadUserProfileImage() {
+        val user = dbHelper.getUserById(userId)
+        if (user != null && !user.profileImageUri.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(Uri.parse(user.profileImageUri))
+                .placeholder(R.drawable.ic_person)
+                .into(binding.ivProfile)
+        } else {
+            binding.ivProfile.setImageResource(R.drawable.ic_person)
+        }
+    }
 
     private fun setupRecyclerView() {
         adapter = RecommendationAdapter(filteredList, sharedViewModel, viewLifecycleOwner)
-
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvRekomendasi.layoutManager = gridLayoutManager
+        binding.rvRekomendasi.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvRekomendasi.adapter = adapter
 
         val spacingInPixels = try {
@@ -182,7 +198,6 @@ class HomeFragment : Fragment() {
             if (includeEdge) {
                 outRect.left = spacing - column * spacing / spanCount
                 outRect.right = (column + 1) * spacing / spanCount
-
                 if (position < spanCount) {
                     outRect.top = spacing
                 }
