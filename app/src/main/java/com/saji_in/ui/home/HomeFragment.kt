@@ -18,6 +18,8 @@ import com.saji_in.db.UserDatabaseHelper
 import com.saji_in.model.FoodItem
 import com.saji_in.model.FoodType
 import com.saji_in.model.SharedViewModel
+import android.graphics.Color
+
 import android.graphics.drawable.GradientDrawable
 
 
@@ -239,6 +241,7 @@ class HomeFragment : Fragment() {
 
     private var filteredList = foodList.toMutableList()
     private var currentFilter: FoodType? = null
+    private var showLimitedItems = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -269,6 +272,17 @@ class HomeFragment : Fragment() {
         loadUserProfileImage()
     }
 
+    private fun updateEmptyStateLayout() {
+        if (filteredList.isEmpty()) {
+            binding.emptyStateLayout.visibility = View.VISIBLE
+            binding.rvRekomendasi.visibility = View.GONE
+        } else {
+            binding.emptyStateLayout.visibility = View.GONE
+            binding.rvRekomendasi.visibility = View.VISIBLE
+        }
+    }
+
+
     private fun toggleFilter(type: FoodType, selectedView: View) {
         if (currentFilter == type) {
             // Klik ulang, reset filter
@@ -284,29 +298,24 @@ class HomeFragment : Fragment() {
             highlightCategory(selectedView)
         }
         adapter.notifyDataSetChanged()
+        updateEmptyStateLayout()
+
     }
 
 
     private fun highlightCategory(selectedView: View) {
         clearHighlight()
-        val highlightColor = resources.getColor(R.color.gray_light, null)
-
-        // Gunakan background dengan corner radius
-        val drawable = GradientDrawable().apply {
-            setColor(highlightColor)
-            cornerRadius = 32f
-        }
-
-        selectedView.background = drawable
+        selectedView.setBackgroundResource(R.drawable.rounded_highlight)
     }
+
 
 
     private fun clearHighlight() {
-        val defaultColor = resources.getColor(android.R.color.transparent, null)
-        binding.llMakanan.setBackgroundColor(defaultColor)
-        binding.llJajanan.setBackgroundColor(defaultColor)
-        binding.llMinuman.setBackgroundColor(defaultColor)
+        binding.llMakanan.setBackgroundColor(Color.TRANSPARENT)
+        binding.llJajanan.setBackgroundColor(Color.TRANSPARENT)
+        binding.llMinuman.setBackgroundColor(Color.TRANSPARENT)
     }
+
 
     private fun setupFilterButtons() {
         binding.llMakanan.setOnClickListener {
@@ -327,6 +336,7 @@ class HomeFragment : Fragment() {
         filteredList.clear()
         filteredList.addAll(foodList.filter { it.type == type })
         adapter.notifyDataSetChanged()
+        updateEmptyStateLayout()
     }
 
     private fun loadUserProfileImage() {
@@ -366,6 +376,7 @@ class HomeFragment : Fragment() {
                     it.title.lowercase().contains(query) || it.description.lowercase().contains(query)
                 })
                 adapter.notifyDataSetChanged()
+                updateEmptyStateLayout()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

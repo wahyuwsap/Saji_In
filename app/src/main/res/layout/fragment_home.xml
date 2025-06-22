@@ -249,6 +249,37 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/emptyStateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/emptyImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_empty_love"
+                android:contentDescription="Empty" />
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Belum ada apa-apa nih"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
 </ScrollView>
