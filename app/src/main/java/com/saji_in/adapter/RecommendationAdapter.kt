@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.saji_in.R
 import com.saji_in.databinding.ItemRekomendasiBinding
@@ -34,22 +33,15 @@ class RecommendationAdapter(
                 currentItem?.let { item ->
                     val context = it.context
                     val intent = Intent(context, RincianSajianActivity::class.java).apply {
-                        putExtra("title", item.title)
-                        putExtra("description", item.description)
-                        putExtra("imageResId", item.imageResId)
-                        putExtra("cookTime", item.cookTime)
-                        putExtra("ingredients", item.ingredients.toTypedArray())
-                        putExtra("isLoved", sharedViewModel.lovedItems.value?.contains(item) == true)
+                        putExtra("foodItem", item)
                     }
                     context.startActivity(intent)
                 }
             }
 
-            // Amati perubahan lovedItems hanya sekali
             sharedViewModel.lovedItems.observe(lifecycleOwner) { lovedList ->
                 currentItem?.let { item ->
-                    val isLoved = lovedList.contains(item)
-                    updateLoveButton(isLoved)
+                    updateLoveButton(lovedList.contains(item))
                 }
             }
         }
@@ -73,7 +65,6 @@ class RecommendationAdapter(
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemRekomendasiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -85,10 +76,10 @@ class RecommendationAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
     }
+
     fun updateData(newList: List<FoodItem>) {
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()
     }
-
 }

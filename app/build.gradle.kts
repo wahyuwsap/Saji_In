@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
     id("kotlin-kapt")
+
 }
 
 android {
@@ -49,6 +51,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.google.android.material:material:1.11.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
