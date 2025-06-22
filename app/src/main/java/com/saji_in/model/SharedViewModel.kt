@@ -9,15 +9,11 @@ class SharedViewModel : ViewModel() {
     private val _lovedItems = MutableLiveData<List<FoodItem>>(emptyList())
     val lovedItems: LiveData<List<FoodItem>> get() = _lovedItems
 
-    companion object {
-        private var instance: SharedViewModel? = null
+    private val _selectedCategory = MutableLiveData<FoodType>()
+    val selectedCategory: LiveData<FoodType> get() = _selectedCategory
 
-        fun getInstance(): SharedViewModel {
-            if (instance == null) {
-                instance = SharedViewModel()
-            }
-            return instance!!
-        }
+    fun setSelectedCategory(type: FoodType) {
+        _selectedCategory.value = type
     }
 
     fun toggleLove(item: FoodItem) {
@@ -33,5 +29,15 @@ class SharedViewModel : ViewModel() {
     fun isLoved(item: FoodItem): Boolean {
         return _lovedItems.value?.contains(item) == true
     }
-}
 
+    companion object {
+        private var instance: SharedViewModel? = null
+
+        fun getInstance(): SharedViewModel {
+            if (instance == null) {
+                instance = SharedViewModel()
+            }
+            return instance!!
+        }
+    }
+}

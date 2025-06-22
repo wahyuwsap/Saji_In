@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,10 +19,7 @@ import com.saji_in.db.UserDatabaseHelper
 import com.saji_in.model.FoodItem
 import com.saji_in.model.FoodType
 import com.saji_in.model.SharedViewModel
-import android.graphics.Color
 import com.saji_in.data.foodList
-
-
 
 class HomeFragment : Fragment() {
 
@@ -34,10 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var dbHelper: UserDatabaseHelper
     private var userId: Int = -1
 
-
     private var filteredList = foodList.toMutableList()
-    private var currentFilter: FoodType? = null
-    private var showLimitedItems = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +42,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         dbHelper = UserDatabaseHelper(requireContext())
-
-        // Ambil user ID dari activity
         userId = requireActivity().intent.getIntExtra("user_id", -1)
 
         if (userId != -1) {
@@ -57,8 +50,7 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         setupSearch()
-        setupFilterButtons()
-
+        setupCategoryButtons()
 
         return binding.root
     }
@@ -68,71 +60,26 @@ class HomeFragment : Fragment() {
         loadUserProfileImage()
     }
 
-    private fun updateEmptyStateLayout() {
-        if (filteredList.isEmpty()) {
-            binding.emptyStateLayout.visibility = View.VISIBLE
-            binding.rvRekomendasi.visibility = View.GONE
-        } else {
-            binding.emptyStateLayout.visibility = View.GONE
-            binding.rvRekomendasi.visibility = View.VISIBLE
-        }
-    }
+    private fun setupCategoryButtons() {
+        val navController = findNavController()
 
-
-    private fun toggleFilter(type: FoodType, selectedView: View) {
-        if (currentFilter == type) {
-            // Klik ulang, reset filter
-            currentFilter = null
-            filteredList.clear()
-            filteredList.addAll(foodList)
-            clearHighlight()
-        } else {
-            // Terapkan filter baru
-            currentFilter = type
-            filteredList.clear()
-            filteredList.addAll(foodList.filter { it.type == type })
-            highlightCategory(selectedView)
-        }
-        adapter.notifyDataSetChanged()
-        updateEmptyStateLayout()
-
-    }
-
-
-    private fun highlightCategory(selectedView: View) {
-        clearHighlight()
-        selectedView.setBackgroundResource(R.drawable.rounded_highlight)
-    }
-
-
-
-    private fun clearHighlight() {
-        binding.llMakanan.setBackgroundColor(Color.TRANSPARENT)
-        binding.llJajanan.setBackgroundColor(Color.TRANSPARENT)
-        binding.llMinuman.setBackgroundColor(Color.TRANSPARENT)
-    }
-
-
-    private fun setupFilterButtons() {
         binding.llMakanan.setOnClickListener {
-            toggleFilter(FoodType.MAKANAN, binding.llMakanan)
+            sharedViewModel.setSelectedCategory(FoodType.MAKANAN)
+            navController.navigate(R.id.action_navigation_home_to_kategoriFragment)
+
         }
 
         binding.llJajanan.setOnClickListener {
-            toggleFilter(FoodType.JAJANAN, binding.llJajanan)
+            sharedViewModel.setSelectedCategory(FoodType.JAJANAN)
+            navController.navigate(R.id.action_navigation_home_to_kategoriFragment)
+
         }
 
         binding.llMinuman.setOnClickListener {
-            toggleFilter(FoodType.MINUMAN, binding.llMinuman)
+            sharedViewModel.setSelectedCategory(FoodType.MINUMAN)
+            navController.navigate(R.id.action_navigation_home_to_kategoriFragment)
+
         }
-    }
-
-
-    private fun filterByType(type: FoodType) {
-        filteredList.clear()
-        filteredList.addAll(foodList.filter { it.type == type })
-        adapter.notifyDataSetChanged()
-        updateEmptyStateLayout()
     }
 
     private fun loadUserProfileImage() {
@@ -178,6 +125,16 @@ class HomeFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    private fun updateEmptyStateLayout() {
+        if (filteredList.isEmpty()) {
+            binding.emptyStateLayout.visibility = View.VISIBLE
+            binding.rvRekomendasi.visibility = View.GONE
+        } else {
+            binding.emptyStateLayout.visibility = View.GONE
+            binding.rvRekomendasi.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

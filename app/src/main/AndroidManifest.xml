@@ -59,7 +59,7 @@
 
 <!--        RincianSajian-->
         <activity android:name=".ui.detail.RincianSajianActivity" />
-
+        <activity android:name=".ui.kategori.KategoriFragment" />
         <activity android:name=".ui.settings.EditProfileActivity" />
         <activity android:name=".ui.settings.GantiPasswordActivity" />
         <activity android:name=".ui.settings.PrivacyPolicyActivity" />
