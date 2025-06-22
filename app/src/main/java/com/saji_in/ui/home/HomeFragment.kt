@@ -18,6 +18,8 @@ import com.saji_in.db.UserDatabaseHelper
 import com.saji_in.model.FoodItem
 import com.saji_in.model.FoodType
 import com.saji_in.model.SharedViewModel
+import android.graphics.drawable.GradientDrawable
+
 
 class HomeFragment : Fragment() {
 
@@ -236,6 +238,7 @@ class HomeFragment : Fragment() {
 
 
     private var filteredList = foodList.toMutableList()
+    private var currentFilter: FoodType? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -255,6 +258,8 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
         setupSearch()
+        setupFilterButtons()
+
 
         return binding.root
     }
@@ -262,6 +267,66 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadUserProfileImage()
+    }
+
+    private fun toggleFilter(type: FoodType, selectedView: View) {
+        if (currentFilter == type) {
+            // Klik ulang, reset filter
+            currentFilter = null
+            filteredList.clear()
+            filteredList.addAll(foodList)
+            clearHighlight()
+        } else {
+            // Terapkan filter baru
+            currentFilter = type
+            filteredList.clear()
+            filteredList.addAll(foodList.filter { it.type == type })
+            highlightCategory(selectedView)
+        }
+        adapter.notifyDataSetChanged()
+    }
+
+
+    private fun highlightCategory(selectedView: View) {
+        clearHighlight()
+        val highlightColor = resources.getColor(R.color.gray_light, null)
+
+        // Gunakan background dengan corner radius
+        val drawable = GradientDrawable().apply {
+            setColor(highlightColor)
+            cornerRadius = 32f
+        }
+
+        selectedView.background = drawable
+    }
+
+
+    private fun clearHighlight() {
+        val defaultColor = resources.getColor(android.R.color.transparent, null)
+        binding.llMakanan.setBackgroundColor(defaultColor)
+        binding.llJajanan.setBackgroundColor(defaultColor)
+        binding.llMinuman.setBackgroundColor(defaultColor)
+    }
+
+    private fun setupFilterButtons() {
+        binding.llMakanan.setOnClickListener {
+            toggleFilter(FoodType.MAKANAN, binding.llMakanan)
+        }
+
+        binding.llJajanan.setOnClickListener {
+            toggleFilter(FoodType.JAJANAN, binding.llJajanan)
+        }
+
+        binding.llMinuman.setOnClickListener {
+            toggleFilter(FoodType.MINUMAN, binding.llMinuman)
+        }
+    }
+
+
+    private fun filterByType(type: FoodType) {
+        filteredList.clear()
+        filteredList.addAll(foodList.filter { it.type == type })
+        adapter.notifyDataSetChanged()
     }
 
     private fun loadUserProfileImage() {
