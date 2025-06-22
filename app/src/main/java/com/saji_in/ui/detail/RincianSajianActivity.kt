@@ -8,6 +8,8 @@ import com.saji_in.databinding.ActivityRincianSajianBinding
 import com.saji_in.model.FoodItem
 import com.saji_in.R
 import com.saji_in.MainActivity
+import androidx.core.content.ContextCompat
+
 
 class RincianSajianActivity : AppCompatActivity() {
 
@@ -75,6 +77,8 @@ class RincianSajianActivity : AppCompatActivity() {
             binding.titlebahan.text = "Bahan yang diperlukan"
             binding.tvTotalBahan.text = "${currentItem.ingredients.size} bahan"
             binding.tvTotalBahan.visibility = View.VISIBLE
+            updateButtonState(true)
+
         }
 
         // Tombol langkah
@@ -84,6 +88,8 @@ class RincianSajianActivity : AppCompatActivity() {
             binding.titlebahan.text = "Jumlah takaran saji"
             binding.tvTotalBahan.text = "${currentItem.steps.size} langkah"
             binding.tvTotalBahan.visibility = View.VISIBLE
+            updateButtonState(false)
+
         }
 
         // Tombol kembali ke bahan
@@ -93,6 +99,8 @@ class RincianSajianActivity : AppCompatActivity() {
             binding.titlebahan.text = "Bahan yang diperlukan"
             binding.tvTotalBahan.text = "${currentItem.ingredients.size} bahan"
             binding.tvTotalBahan.visibility = View.VISIBLE
+            updateButtonState(true)
+
         }
 
         // Tombol back dalam scroll
@@ -129,4 +137,22 @@ class RincianSajianActivity : AppCompatActivity() {
         val icon = if (isLoved) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
         binding.ivLove.setImageResource(icon)
     }
+
+    private fun updateButtonState(isBahan: Boolean) {
+        val colorPrimary = ContextCompat.getColor(this, R.color.teal_custom)
+        val colorWhite = ContextCompat.getColor(this, R.color.white)
+
+        if (isBahan) {
+            binding.btnBahannya.setBackgroundColor(colorPrimary)
+            binding.btnBahannya.setTextColor(colorWhite)
+            binding.btnMemasak.setBackgroundColor(colorWhite)
+            binding.btnMemasak.setTextColor(colorPrimary)
+        } else {
+            binding.btnBahannya.setBackgroundColor(colorWhite)
+            binding.btnBahannya.setTextColor(colorPrimary)
+            binding.btnMemasak.setBackgroundColor(colorPrimary)
+            binding.btnMemasak.setTextColor(colorWhite)
+        }
+    }
+
 }

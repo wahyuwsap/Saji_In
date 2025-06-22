@@ -11,6 +11,6 @@
     <color name="cream">#FDF9EF</color>
     <color name="gray_light">#60e0e0e0</color>
     <color name="gray_dark">#444444</color>
-
+    <color name="teal_custom">#65C7CD</color>
 
 </resources>
