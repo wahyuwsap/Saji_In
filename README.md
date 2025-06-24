@@ -1,6 +1,6 @@
 # Saji_In
 
-Nama Anggota Kelompok 2:
+Nama Anggota Kelompok 2:   
 Salsha Nabila (2317051010)   
 Achmad Ghalib Hafiz (2317051023)   
 Bram Ahimsa Lafayet (2317051042)   
