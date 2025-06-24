@@ -1,12 +1,12 @@
 # Saji_In
 
 Nama Anggota Kelompok 2:
-Salsha Nabila (2317051010)
-Achmad Ghalib Hafiz (2317051023)
-Bram Ahimsa Lafayet (2317051042)
-Sabrina Nurhasanah (2317051063)
-Melissa Novianti Nugroho (2317051103)
-Wahyu Sri Aryo Pangestu (2317051108)
+Salsha Nabila (2317051010)   
+Achmad Ghalib Hafiz (2317051023)   
+Bram Ahimsa Lafayet (2317051042)   
+Sabrina Nurhasanah (2317051063)   
+Melissa Novianti Nugroho (2317051103)   
+Wahyu Sri Aryo Pangestu (2317051108)   
 
 Tema projek: Rekomendasi Produk
 
