@@ -17,3 +17,20 @@ Link Youtube: https://youtu.be/HBVaIWg9ohw
 Link Laporan: https://docs.google.com/document/d/1OEtHl7ABkrSJrh93yhj6rlGrbVeTQaZAXly0G7bRaNI/edit?usp=sharing
 
 Link Poster: https://www.canva.com/design/DAGrFRRo8K4/fxMSFrnKdYIGvPnh-JAYkw/edit?utm_content=DAGrFRRo8K4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+
+Pembagian Desain Aplikasi   
+Salsha Nabila: Deskripsi Makanan, Home   
+Achmad Ghalib Hafizh: Ganti Password, Edit Profile  
+Bram Ahimsa Lafayet: Privacy Policy, Terms of Service  
+Sabrina Nurhasanah: Introducing Page, Profile Account  
+Melissa Novianti Nugroho: Detail Resep, Bookmark (Favorite)  
+Wahyu Sri Aryo Pangestu: Register, Login   
+
+Pembagian Andorid Studio
+Wahyu Sri Aryo Pangestu: register, rincian sajian, home
+Bram Ahimsa Lafayet: login, edit profile, ganti password
+Sabrina Nurhasanah: main, privacy policy, splashscreen
+Salsha Nabila: Term of Service, dashboard, item bahan
+Achmad Ghalib Hafizh: kategori, notifikasi, item langkah
+Melissa Novianti Nugroho: rekomendasi awal, rekomendasi resep, item rekomendasi
